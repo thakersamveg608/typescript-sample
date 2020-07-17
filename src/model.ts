@@ -7,11 +7,12 @@ let createDate: Date = new Date();
 // let originalCost = 425 as number;
 let originalCost = 425 as any;
 // originalCost = "hello";//No error if uncommented
-
 enum InventoryItemType {
     Computer = "computer",
     Furniture = "furniture"
 }
+
+type cost = string | number;//custom type
 
 interface InventoryItem{
     displayName: string;
@@ -19,7 +20,9 @@ interface InventoryItem{
     inventoryType: "computer" | "furniture";
     trackingNumber: string;
     createDate: Date;
-    originalCost?: number;//Original cost is not compulsory but should be a number if exist
+    // originalCost?: number;//Original cost is not compulsory but should be a number if exist
+    // originalCost?: number | string;//can be done like this
+    originalCost?: cost;
 
     // addNote(note: string): string;//Same as below
     addNote?:(note: string)=> string;
@@ -45,3 +48,18 @@ saveInventoryItem({
     createDate: new Date(),
     originalCost: 199000
 });
+
+// function clone(source: InventoryItem): InventoryItem {
+//     const serialized = JSON.stringify(source);
+//     return JSON.parse(serialized);
+// }
+function clone<T>(source: T): T {
+    const serialized = JSON.stringify(source);
+    return JSON.parse(serialized);
+}
+
+// const cloned = clone(inventoryItem);//For the commented clone function. Output type not statically defined
+// const cloned = clone<InventoryItem>(inventoryItem);//Specifically telling the return type
+const cloned = clone(inventoryItem);//letting typescript find out about return type
+
+declare var Vue: any;
