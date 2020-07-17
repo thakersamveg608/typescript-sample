@@ -8,21 +8,40 @@ let createDate: Date = new Date();
 let originalCost = 425 as any;
 // originalCost = "hello";//No error if uncommented
 
+enum InventoryItemType {
+    Computer = "computer",
+    Furniture = "furniture"
+}
 
-function getInventoryItem(trackingNumber: string): {
+interface InventoryItem{
     displayName: string;
-    inventoryType: string;
+    // inventoryType: InventoryItemType;//Can also be used
+    inventoryType: "computer" | "furniture";
     trackingNumber: string;
     createDate: Date;
-    originalCost: number;
-} {
+    originalCost?: number;//Original cost is not compulsory but should be a number if exist
+
+    // addNote(note: string): string;//Same as below
+    addNote?:(note: string)=> string;
+}
+
+function getInventoryItem(trackingNumber: string): InventoryItem{
     return null;
 }
 
-function saveInventoryItem(item) {
+function saveInventoryItem(item: InventoryItem) {
 
 }
 
 let inventoryItem = getInventoryItem(trackingNumber);
 inventoryItem.createDate = new Date();
-saveInventoryItem(inventoryItem);
+
+// saveInventoryItem(inventoryItem);
+saveInventoryItem({
+    displayName: "macBook pro 15 inch",
+    // inventoryType: InventoryItemType.Computer,
+    inventoryType: "computer",
+    trackingNumber: "FD123456",
+    createDate: new Date(),
+    originalCost: 199000
+});
